@@ -27,6 +27,7 @@
     - [**Structural - Decorator**](#structural---decorator)
     - [**Structural - Facade**](#structural---facade)
     - [**Structural - Flyweight**](#structural---flyweight)
+    - [**Structural - Proxy**](#structural---proxy)
   - [**Behavioural**](#behavioural)
     - [**Behavioural - Chain of responsibility**](#behavioural---chain-of-responsibility)
     - [**Behavioural - Command**](#behavioural---command)
@@ -39,6 +40,9 @@
     - [**Behavioural - Template Method**](#behavioural---template-method)
     - [**Behavioural - Visitor**](#behavioural---visitor)
     - [**Behavioural - Interpreter**](#behavioural---interpreter)
+- [**Another Specific Terms**](#another-specific-terms)
+  - [**What is an abstract class ?**](#what-is-an-abstract-class-)
+  - [**What is a concrete class ?**](#what-is-a-concrete-class-)
 - [**My Mentors**](#my-mentors)
 - [**Made with 💘**](#made-with-)
 
@@ -113,6 +117,12 @@ Creational pattern comprise 5 prototypes:
 
 Instead of creating an object with `new` method, creational pattern provides a solution to instantiate an object & hide the logical way to create it. This way makes an application more flexible when it determines which objects will be created depend on what situation happens.
 
+These patterns are used for instantiation of classes. They are concerned with the way of creating objects. Normally object creation happens in the below way by using the new keyword.
+
+    Student myStudent = new Student();
+
+The above code is more than enough for object instantiation, but in some cases `the object must be changed according to the nature of the program in runtime`, in such cases, creational design patterns will be useful.
+
 ### [**Creational - Factory Method**](#creational---factory-method)
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ ⭐ 
@@ -157,7 +167,12 @@ When it comes to **structural pattern**, it consists:
 
 6. Flyweight
 
-Structural pattern relates to `class` and `object's components`. It is used to define relationship between 2 or more classes.
+7. Proxy
+Structural pattern relates to class and object's components. It is used to define relationship between 2 or more classes.
+
+Structural design patterns are concerned with how objects and classes are composed. This pattern helps in simplifying the structure by identifying the relationships. It focuses on `how classes inherit from each other and how they are composed from other classes`.
+
+The main goal is to `increase or extend the functionalities` of the class `without changing its composition`.
 
 ### [**Structural - Adapter**](#structural---adapter)
 
@@ -182,6 +197,10 @@ Structural pattern relates to `class` and `object's components`. It is used to d
 ### [**Structural - Flyweight**](#structural---flyweight)
 
 - Fluency of use: ⭐
+
+### [**Structural - Proxy**](#structural---proxy)
+
+- Fluency of use: ⭐ ⭐ ⭐ ⭐
 
 ## [**Behavioural**](#behavioural)
 
@@ -262,6 +281,24 @@ They are used to take actions with objects, communication among objects.
 ### [**Behavioural - Interpreter**](#behavioural---interpreter)
 
 - Fluency of use: ⭐
+
+# [**Another Specific Terms**](#other-terms-to-know)
+
+## [**What is an abstract class ?**](#what-is-an-abstract-class)
+
+Abstract class means `hiding the implementation` and just `showing the function definition` to the user. Abstract classes `cannot be instantiated`, it should be inherited and then instantiation should be done for the subclass. It can `have both abstract and non-abstract methods`.
+
+## [**What is a concrete class ?**](#what-is-a-concrete-class)
+
+A concrete class is a class which has implementation for all of its methods. It cannot have any unimplemented methods. It is simply the sub class which is inherited from an abstract class.
+
+<p align="center">
+    <img src="./photo/concrete.png" width="640" />
+</p>
+<h3 align="center">
+
+***BOTH RECTANGLE AND CIRCLE ARE CONCRETE CLASS***
+</h3>
 
 # [**My Mentors**](#my-mentors)
 
