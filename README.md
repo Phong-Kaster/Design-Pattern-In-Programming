@@ -175,6 +175,13 @@ Second, create 2 subclass which implements `Bank` interface
                 return "TPBank - A deeper understanding";
             }
  
+            @Override
+            public String getAddress()
+            {
+                return "49 Mac Dinh Chi, District 1, TP.HCM, Vietnam"
+            }
+
+            # any method/ functions are able to declare below.
         }
 
 - Vietcombak Class
@@ -187,13 +194,21 @@ Second, create 2 subclass which implements `Bank` interface
             public String getName() {
                 return "Vietcombank - Together for the future";
             }
+
+            @Override
+            public String getAddress()
+            {
+                return "125 Oktoberfest, District Deutschland, Berlin, Germany"
+            }
+
+            # any method/ functions are able to declare below.
         }
 
 Third, instantiating `enum BankName`, the enum stores constant through our application. To manage easier with our customers, `ENUM` is chosen to store banks name.
 
         public enum BankName{
 
-            # you can add more bank name if needed@
+            # you can add more bank name if needed
             TPBANK, VIETCOMBANK
             BIDV, AGRIBANK,
             LienVietPostBank;
@@ -211,8 +226,8 @@ Fourth, creating Factory Method. In this example, it is called `BankFactory`.
         
 
 
-            # "getBankName" method return name & slogan of a bank
-            public static final Bank getBankName(BankName bankName) {
+            # "getBank" method create an instance depending on @parameter BankName
+            public static final Bank getBank(BankName bankName) {
                 switch (bankName) {
         
                 case TPBANK:
@@ -233,10 +248,14 @@ Final, call `BankFactory` in our application"
  
         public static void main(String[] args) {
 
-            Bank bank = BankFactory.getBankName(BankType.Vietcombank);
+            Bank bank = BankFactory.getBank(BankType.Vietcombank);
 
-            String content = bank.getName();
+            String name = bank.getName();
+            String address = bank.getAddress();
+
+
             System.out.println("One of our customer is " + content);
+            System.out.println("Their headquarter is in " + address);
         }
     }
 
@@ -244,9 +263,33 @@ The output is absolutely as
 
     One of our customer is Vietcombank - Together for the future
 
+    Their headquarter is in 125 Oktoberfest, District Deutschland, Berlin, Germany
+
 ### [**Creational - Abstract Method**](#creational---abstract-method)
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ 
+
+Abstract Factory is a creational design pattern that provide an interface for creating families of  related or dependent objects without specifying their concrete classes.
+
+>From my point of view, an Abstract (Factory) Method is a Factory method whose ability is to create a Factory Method.
+
+Abstract Factory is the way to create a Super Factory. A `Super Factory` is eligible for creating a [**Factory Method**](#creational---factory-method)
+
+In other word, Abstract Factory is a higher level of Factory Method. You could assume that Abstract Factory is an enormous factory. The enormous(Abstract Factory) factory comprises a number of small factory. Each small factory(Factory Method) specializes its own business.
+
+Example: 
+
+<p align="center">
+    <img src="./photo/abstract-method-sample.png" width="640" />
+</p>
+<h3 align="center">
+
+***A BUSINESS HAS 2 FACTORY SPECIALIZED FOR EACH MATERIALS***
+</h3>
+
+You are the chairman of GeoComply group - a furniture manufacturer. Your business supplies Table & Chair which is made from Wood or Plastic. However, manufacturing Wood furnitures & Plastic furnitures is different 100%. Therefore, you need 2 different factories to create them. Your customers can make orders which include both wood & plastic furnitures. Both of 2 factories will make process to fulfill your customers's order.
+
+
 
 ### [**Creational - Singleton**](#creational---singleton)
 
