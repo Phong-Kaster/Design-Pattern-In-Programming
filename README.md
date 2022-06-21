@@ -127,6 +127,123 @@ The above code is more than enough for object instantiation, but in some cases `
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ ⭐ 
 
+Factory Method is a creational design pattern that Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.
+
+Factory Method is a factory explicitly. This "factory" manufactures objects which we need only.
+
+In Factory Method, it consist of 3 basic components:
+
+1. Super Class: a super class could be interface, abstract & normal class.
+
+2. Sub Class: classes which implements all methods from super class according to its own business.
+
+3. Factory Class: a class is in charge of instantiate subclass's objects basing on passed parameters.
+
+>Note: Factory class could be `Singleton` or any class providing a `public static` method for querying or creating an objects. It is said that factory uses `if-else` or `switch-case` so as to decide output subclass.
+
+Example: We own a Mobile Money application for mobile device(Momo, Zalo and so forth). There are many financial organizations as ARGIBANK, BIDV, VIETCOMBANK,.... They are able to supply us a restfulAPI to use their services. The point in this scenario is how we don't need to change our core source code to use their restfulAPI if we want to cope with other businesses..... The answer for the problem is taking advantage of `Factory Method`
+
+
+<p align="center">
+    <img src="./photo/factory-example.png" width="640" />
+</p>
+<h3 align="center">
+
+***WE DON'T WANT TO MODIFY / EXTEND CODE FOR EACH BANKS WE INCORPORATE? FACTORY METHOD IS THE KEY TO ADDRESS***
+</h3>
+
+First, create super class:
+
+    public interface Bank{
+
+        String getName();
+        String getAddress();
+
+        #do what you want
+    }
+
+Second, create 2 subclass which implements `Bank` interface 
+
+- TPBank Class:
+  
+        package com.gpcoder.patterns.creational.factorymethod;
+ 
+        public class TPBank implements Bank {
+ 
+            @Override
+            public String getName() {
+                return "TPBank - A deeper understanding";
+            }
+ 
+        }
+
+- Vietcombak Class
+
+        package com.gpcoder.patterns.creational.factorymethod;
+ 
+        public class Vietcombank implements Bank {
+ 
+            @Override
+            public String getName() {
+                return "Vietcombank - Together for the future";
+            }
+        }
+
+Third, instantiating `enum BankName`, the enum stores constant through our application. To manage easier with our customers, `ENUM` is chosen to store banks name.
+
+        public enum BankName{
+
+            # you can add more bank name if needed@
+            TPBANK, VIETCOMBANK
+            BIDV, AGRIBANK,
+            LienVietPostBank;
+
+        }
+
+Fourth, creating Factory Method. In this example, it is called `BankFactory`.
+
+        public class BankFactory {
+ 
+
+            # Constructor
+            private BankFactory() {
+            }
+        
+
+
+            # "getBankName" method return name & slogan of a bank
+            public static final Bank getBankName(BankName bankName) {
+                switch (bankName) {
+        
+                case TPBANK:
+                    return new TPBank();
+        
+                case VIETCOMBANK:
+                    return new Vietcombank();
+
+                default:
+                    throw new IllegalArgumentException("This bank is unsupported");
+                }
+            }
+        
+        }
+Final, call `BankFactory` in our application"
+
+    public class Client {
+ 
+        public static void main(String[] args) {
+
+            Bank bank = BankFactory.getBankName(BankType.Vietcombank);
+
+            String content = bank.getName();
+            System.out.println("One of our customer is " + content);
+        }
+    }
+
+The output is absolutely as
+
+    One of our customer is Vietcombank - Together for the future
+
 ### [**Creational - Abstract Method**](#creational---abstract-method)
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ 
