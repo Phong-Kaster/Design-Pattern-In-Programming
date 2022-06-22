@@ -277,7 +277,21 @@ Abstract Factory is the way to create a Super Factory. A `Super Factory` is elig
 
 In other word, Abstract Factory is a higher level of Factory Method. You could assume that Abstract Factory is an enormous factory. The enormous(Abstract Factory) factory comprises a number of small factory. Each small factory(Factory Method) specializes its own business.
 
+A standard Abstract (Factory) Method embraces 5 components:
+
+- **Abstract (Factory) Method** - it is defined `Interface` or `Abstract` class. They consists methods creating Abstract objects. To answer question: What does Abstract Method embrace ?
+
+- **Abstract Product** - it is declared as `Interface` or `Abstract` class so as to define Abstract objects. To answer question: what activity **Abstract (Factory) Method's element** do ?
+
+- **Concrete Factory** - building, instantiating methods which is used to create specific objects. To answer question: What do they need to begin run ?
+
+- **Product** - Install of specific objects & write coding-flow for **Abstract Product's methods**. To answer question: How do they do ?
+
+- **Client** - The objects uses **Abstract Factory** & **Abstract Product**.
+
 Example: 
+
+You are the chairman of GeoComply group - a furniture manufacturer. Your business supplies Table & Chair which is made from Wood or Plastic. However, manufacturing Wood furnitures & Plastic furnitures is 100Z% different . Therefore, you need 2 different factories to create them. Your customers can make orders which include both wood & plastic furnitures. Both of 2 factories will make process to fulfill your customers's order.   
 
 <p align="center">
     <img src="./photo/abstract-method-sample.png" width="640" />
@@ -287,9 +301,164 @@ Example:
 ***A BUSINESS HAS 2 FACTORY SPECIALIZED FOR EACH MATERIALS***
 </h3>
 
-You are the chairman of GeoComply group - a furniture manufacturer. Your business supplies Table & Chair which is made from Wood or Plastic. However, manufacturing Wood furnitures & Plastic furnitures is different 100%. Therefore, you need 2 different factories to create them. Your customers can make orders which include both wood & plastic furnitures. Both of 2 factories will make process to fulfill your customers's order.
+
+First, using `ENUM` to store constants:
+
+    public enum  Material{
+
+        # add more types of material if you want
+        PLASTIC, WOOD;
+
+    }
 
 
+Second, declaring **Abstract (Factory) Method**, it will be called Furniture Factory:
+
+    public class FurnitureFactory {
+ 
+        # constructor
+        private FurnitureFactory() {
+    
+        }
+    
+
+        public static FurnitureAbstractFactory getFactory(Material material) {
+            switch (materialType) 
+            {
+                case PLASTIC:
+                    return new PlasticFactory();
+
+                case WOOD:
+                    return new WoodFactory();
+
+                default:
+                    throw new UnsupportedOperationException("This material is unsupported ");
+            }
+        }
+    }
+
+Third, creating **Abstract Factory**. This is `Abstract` class which defines what activities that WoodFactory & PlasticFactory do. ManufactureChair() and manufactureTable(), for instance.
+
+    public abstract class FurnitureAbstractFactory{
+
+        public abstract Chair manufactureChair();
+
+        public abstract Table manufactureTable();
+    }
+
+>Note: Don't forget to declare `Chair` class & `Table` class into a Model folder.
+
+Fourth, **Concrete Factory** determines what factories need to begin operating
+
+- Plastic Factory:
+
+        public class PlasticFactory extends FurnitureAbstractFactory {
+
+            # what does PlasticFactory need to manufacture a Plastic Chair?
+            @Override
+            public Chair manufactureChair() {
+                return new PlasticChair();
+            }
+ 
+            # what does PlasticFactory need to manufacture a Plastic Table?
+            @Override
+            public Table manufactureTable() {
+                return new PlasticTable();
+            }
+        }
+
+- Wood Factory:
+
+        public class WoodFactory extends FurnitureAbstractFactory {
+ 
+            @Override
+            public Chair manufactureChair() {
+                return new WoodChair();
+            }
+ 
+            @Override
+            public Table manufactureTable() {
+                return new WoodTable();
+            }
+        }
+
+Fifth, **Abstract Product** tell us what actions we could do with a `Chair` & `Table`
+
+- Chair:
+
+        public interface Chair(){
+            
+            void create();
+        }
+- Table:
+
+        public interface Table(){
+            
+            void create();
+        }
+Sixth, Depending on what material is used to make them. We have to write code for each Factory with its own business.
+
+
+1. Plastic Factory 
+- Chair
+  
+        public class PlasticChair implements Chair{
+
+
+            @Override
+            public void create(){
+                System.out.println("Plastic chair is created !");
+            }
+        }
+
+- Table
+
+         public class PlasticTable implements Table{
+
+            @Override
+            public void create(){
+                System.out.println("Plastic table is created !");
+            }
+        }
+2. Wood Factory
+- Chair
+  
+        public class WoodChair implements Chair {
+
+            @Override
+            public void create() {
+                System.out.println("Wood chair is created !");
+            }
+
+        }
+- Table
+
+        public class WoodTable implements Table{
+            @Override
+            public void create(){
+                System.out.println("Wood table is created !");
+            }
+        }
+
+Finally, we are able to use **Furniture Factory** as:
+
+        public static void main(String[] args){
+
+            FurnitureAbstractFactory factory = FurnitureFactory.getFactory(MaterialType.WOOD);
+ 
+                Chair chair = factory.manufactureChair();
+                chair.create(); 
+ 
+                Table table = factory.manufactureTable();
+                table.create();
+            }
+        }
+
+Output
+
+        Wood chair is created !
+
+        Wood table is created !
 
 ### [**Creational - Singleton**](#creational---singleton)
 
