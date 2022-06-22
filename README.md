@@ -291,7 +291,7 @@ A standard Abstract (Factory) Method embraces 5 components:
 
 Example: 
 
-You are the chairman of GeoComply group - a furniture manufacturer. Your business supplies Table & Chair which is made from Wood or Plastic. However, manufacturing Wood furnitures & Plastic furnitures is 100Z% different . Therefore, you need 2 different factories to create them. Your customers can make orders which include both wood & plastic furnitures. Both of 2 factories will make process to fulfill your customers's order.   
+You are the chairman of GeoComply group - a furniture manufacturer. Your business supplies Table & Chair which is made from Wood or Plastic. However, manufacturing Wood furnitures & Plastic furnitures is 100% different . Therefore, you need 2 different factories to create them. Your customers can make orders which include both wood & plastic furnitures. Both of 2 factories will make process to fulfill your customers's order.   
 
 <p align="center">
     <img src="./photo/abstract-method-sample.png" width="640" />
@@ -642,11 +642,33 @@ Disadvantage of Enum:
 
 - The enum constructor is lazy initialization, which means that when used, the constructor runs and it only runs once. If you want to use it as an eager singleton, you need to call the execution in a static block when starting the program.
 
-
 ### [**Creational - Builder**](#creational---builder)
 
 - Fluency of use: ⭐ ⭐ 
+
+Builder is a creational design pattern that separate the construction of a complex object from its representation so that the same construction process can create different representations.
+
+Builder pattern is an object design pattern created to build a complex object using simple objects and using a step-by-step approach, building objects independently of other objects.
+
+Builder pattern is built to overcome some disadvantages of [**Factory Method**](#creational---factory-method) & [**Abstract (Factory) Method**](#creational---abstract-method) when objects have too many properties.
+
+- Client side has to pass many parameters to Factory Method.
+
+- Some parameters are optional but we have to pass all of them when using Factory Method. With an optional parameter, if nothing is entered, it will pass as null.
+
+- If an object has too many properties, it'll be complex.
+
+A Builder pattern includes these basic component above:
+
+- **Product** represents for the objects be created, this object is complex & has many properties.
+
+- **Builder** is an abstract class or interface. It defines method creating the objects.
+
+- **ConcreteBuilder** inherits Builder and implements detailed object creation. It identifies and holds the instances it creates, and it also provides a method to return the instances it has previously created.
    
+- **Client** is the class calls Builder to create objects.
+
+
 ### [**Creational - Prototype**](#creational---prototype)
 
 - Fluency of use: ⭐ ⭐ ⭐
@@ -676,6 +698,7 @@ When it comes to **structural pattern**, it consists:
 6. Flyweight
 
 7. Proxy
+   
 Structural pattern relates to class and object's components. It is used to define relationship between 2 or more classes.
 
 Structural design patterns are concerned with how objects and classes are composed. This pattern helps in simplifying the structure by identifying the relationships. It focuses on `how classes inherit from each other and how they are composed from other classes`.
