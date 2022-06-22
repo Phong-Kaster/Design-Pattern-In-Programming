@@ -464,6 +464,185 @@ Output
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ 
 
+Scenario: Sometimes, in a system analysis, we desire having objects that exist only & could be given access from every where. How can we do this ? Maybe you have idea using a `public static final` variable. However, the use of it absolutely break one of 4 principles of OOP - Encapsulation. To prevent this happening, it's high time we used `Singleton`.
+
+Singleton is a creational design pattern that lets you ensure that a class has only one instance and provide a global access point to this instance.
+
+There are many possible ways to use Singleton yet they have something in common:
+
+- `Private constructor` prevents accessing from other classes.
+
+- `Private static final` variable guarantees it is only defined in its class.
+
+- There is a `public static` method to return its instance from any other classes.
+
+Use of Singleton:
+
+[**1. Singleton - Eager Initialization**](#)
+
+Singleton is created immediately when called. This is the simplest way yet it has a disadvantage that the instance isn't maybe used.
+
+    public class EagerSingleton{
+        
+        # Private static final variable guarantees it is only defined in its class.
+        private static final EagerSingle instance = new EagerSingle();
+
+
+        # Private constructor prevents accessing from other classes.
+        private EagerSingleton{
+
+        }
+
+        
+        # the public static method returns its instance
+        public static getInstance(){
+            return this.instance;
+        }
+
+    }
+
+Eager initialization is a good approach, easy to implement, however, it is easily broken by Reflection.
+
+[**2. Singleton - Static Block Initialization**](#)
+
+It is similar to `Eager Initialization` whereas Static Block Initialization created in a static block provides an option for exception handling.
+ 
+    public class StaticBlockSingleton {
+ 
+        # Private static final variable guarantees it is only defined in its class.
+        private static final StaticBlockSingleton INSTANCE;
+ 
+
+        # Private constructor prevents accessing from other classes.
+        private StaticBlockSingleton() {
+        }
+ 
+
+        # Static block initialization for exception handling
+        static {
+            try 
+            {
+                INSTANCE = new StaticBlockSingleton();
+            } 
+            catch (Exception e) 
+            {
+                throw new RuntimeException("Exception occured in creating singleton instance");
+            }
+        }
+ 
+
+        # the public static method returns its instance
+        public static StaticBlockSingleton getInstance() {
+         return INSTANCE;
+        }
+    }
+
+[**3. Singleton - Lazy Initialization**](#)
+
+Lazy Initialization expands from 2 implementations above & operates well with single-thread.
+
+    public class LazySingleton {
+        
+        # Private static final variable guarantees it is only defined in its class.
+        private static LazySingleton instance;
+ 
+
+        # Private constructor prevents accessing from other classes.
+        private LazySingleton() {
+        }
+ 
+
+        # the public static method returns its instance
+        public static LazySingleton getInstance() {
+            if (instance == null) {
+                instance = new LazySingleton();
+            }
+            return instance;
+        }
+    }
+
+The implementation of **Lazy Initialization** has overcome the disadvantage of Eager initialization, only when getInstance() is called will the instance be initialized. However, this method only works well in the case of single-thread. In case, there are many threads (multi-thread) running and calling getInstance() at the same time, there can be many more than 1 instance of the instance. To overcome this drawback we use Thread Safe Singleton.
+
+
+[**4. Singleton - Thread Safe Singleton**](#)
+
+The easiest way is `calling synchronized method with getInstance()` & then system would guarantee that only one thread can give access to getInstance() at the same time.
+
+
+    public class ThreadSafeSingleton {
+ 
+        private static volatile ThreadSafeSingleton instance;
+ 
+
+        # Private constructor prevents accessing from other classes.
+        private ThreadSafeSingleton() {
+        }
+ 
+
+        # the public static method returns its instance
+        public static synchronized ThreadSafeSingleton getInstance() {
+            if (instance == null) 
+            {
+                instance = new ThreadSafeSingleton();
+            }
+            return instance;
+        }
+    }
+
+>Note: the key "volatile" in JAVA notifies instance's changes to other threads if the instance is being using by many threads.
+
+The disadvantage of Thread Safe Singleton is sluggish & requiring many resources. Any thread calls this instance then they have to wait for running thread finishes. Hence, we can improve it by `Double Check Locking Singleton`.
+
+[**5. Singleton - Double Check Locking Singleton**](#)
+
+        public class DoubleCheckLockingSingleton {
+ 
+            private static volatile DoubleCheckLockingSingleton instance;
+ 
+            private DoubleCheckLockingSingleton() {
+            }
+ 
+            public static DoubleCheckLockingSingleton getInstance() {
+                if (instance == null) 
+                {
+
+                    # Do the task too long before create instance ...
+                    # Block so other threads cannot come into while initialize
+                    synchronized (DoubleCheckLockingSingleton.class) {
+                        // Re-check again. Maybe another thread has initialized before
+                        if (instance == null) 
+                        {
+                            instance = new DoubleCheckLockingSingleton();
+                        }
+                    }
+
+                }
+                return instance;
+            }
+        }
+
+>Note: the key "volatile" in JAVA notifies instance's changes to other threads if the instance is being using by many threads.
+
+[**6. Singleton - Bill Pugh Singleton Implementation**](#)
+
+[**7. Singleton - Using Reflection to destroy Singleton Pattern**](#)
+
+[**8. Singleton - Enum**](#)
+
+When using enum, the params are only initialized once, this is also a way to help you create a Singleton instance.
+
+    public enum BANK{
+        
+        BIDV, ARGIBRANK, VIETCOMBANK;
+    }
+
+Disadvantage of Enum:
+
+- Enum can be used as Singleton but it is unable to extend from other classes.
+
+- The enum constructor is lazy initialization, which means that when used, the constructor runs and it only runs once. If you want to use it as an eager singleton, you need to call the execution in a static block when starting the program.
+
+
 ### [**Creational - Builder**](#creational---builder)
 
 - Fluency of use: ⭐ ⭐ 
