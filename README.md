@@ -646,6 +646,8 @@ Disadvantage of Enum:
 
 - Fluency of use: ⭐ ⭐ 
 
+[**1. Definition**](#)
+
 Builder is a creational design pattern that separate the construction of a complex object from its representation so that the same construction process can create different representations.
 
 Builder pattern is an object design pattern created to build a complex object using simple objects and using a step-by-step approach, building objects independently of other objects.
@@ -658,7 +660,7 @@ Builder pattern is built to overcome some disadvantages of [**Factory Method**](
 
 - If an object has too many properties, it'll be complex.
 
-A Builder pattern includes these basic component above:
+A Builder pattern includes these basic components below:
 
 - **Product** represents for the objects be created, this object is complex & has many properties.
 
@@ -668,10 +670,292 @@ A Builder pattern includes these basic component above:
    
 - **Client** is the class calls Builder to create objects.
 
+[**2. When do we need to use Builder**](#)
+
+1. To create complex object having many properties(greater than 4). Some properties are mandatory & some others are optional.
+2. Too many constructors
+3. To diversify ways to create an object.s
+
+
+
+[**3. Example**](#)
+
+[**3.1 A Standard Builder Example**](#)
+
+Example: 
+
+We assumes that we has a FastFood restaurant. In our menu, we provide a menu meal for children. Children's meal typically consist of a main item, a soft drink, a toy. Note that there can be variation in the content of the children's meal, but the construction process is the same. Whether a customer orders a hamburger, cheeseburger, or chicken, the process is the same. The employee at the counter directs the crew to assemble a main item, side item, and toy. These items are then placed in a bag. The drink is placed in a cup and remains outside of the bag. This process operates in every FastFood restaurant.
+
+<p align="center">
+    <img src="./photo/builder-sample.png" width="640" />
+</p>
+<h3 align="center">
+
+***We can choose whatever we want to assemble a child's meal***
+</h3>
+
+
+The key to answer this question is building a `Builder` to create optional meal.
+
+First, declaring ENUM for storing meal options:
+
+- Type
+
+        public enum TYPE{
+
+            ONSITE, TAKEAWAY;
+        }
+- Bread
+
+        public enum BREAD{
+
+            STANDARD, HAMBURGER, PORK, SAUSAGE, NONE;
+        }
+
+- Drink
+
+        public enum DRINK{
+
+            COCA-COLA, PEPSI, JUICE, NONE;
+        }
+
+Second, defining **Order** class:
+
+    public class Order{
+
+        # declare private variables
+        private TYPE type;
+        private BREAD bread;
+        private DRINK drink;
+
+
+        # constructor
+        public Order(TYPE type, BREAD bread, DRINK drink){
+            this.type = type;
+            this.bread = bread;
+            this.drink = drink;
+        }
+
+
+        # getter for each private variable
+        ........
+
+
+        # @Override
+        public String toString() {
+
+            return "Order Script \n 1. TYPE + " + type + 
+            "\n 2. BREAD: " + bread + 
+            "\n 3. DRINK: " + drink + "\n";
+        }
+    }
+
+Third, defining `interface OrderBuilder` 
+
+    public interface Builder{
+
+        # TYPE's setter method
+        Builder setType();
+
+        # BREAK's setter method
+        Builder setBread();
+
+        # DRINK's setter method
+        Builder setDrink();
+
+        # this function helps us to combine different option to a complete meal
+        Order assemble();
+
+    }
+
+Fourth, implement `OrderBuilder` and write detailed code for each methods which is defined in `interface Builder`:
+
+    public class OrderBuilder implements Builder{
+
+        private TYPE type = TYPE.ONSITE;
+        private BREAD bread = TYPE.NONE;
+        private DRINK drink = TYPE.NONE;
+
+
+        @Override
+        public Builder setType(TYPE type){
+            this.type = type;
+            return this;
+        }
+
+        @Override
+        public Builder setBread(BREAD bread){
+            this.bread = bread;
+            return this;
+        }
+
+
+        @Override
+        public Builder setDrink(DRINK drink){
+            this.drink = drink;
+            return this;
+        }
+        
+
+        @Override
+        public Order assemble(){
+            # declare a "order" object 
+            Order order = new Order(this.type, this.bread, this.drink);
+
+            # return the result;
+            return order;
+        }
+    }
+
+Fifth, the example below shows how to use a OrderBuilder:
+
+    public class PhongKaster{
+
+        public static void main(String[] args){
+            
+            # declare a Order instance
+            Order myOrder = new OrderBuild();
+
+            # choose favorite food
+            myOrder.setType(TYPE.TAKEAWAY);
+            myOrder.setBread(BREAK.HAMBURGER);
+            --no drink to choose
+
+            # print the result to the console
+            System.out.println(order);
+        }
+    }
+
+Output
+
+    Order Script
+    1. TYPE: TAKEAWAY
+    2. BREAK: HAMBURGER
+    3. DRINK: NONE
+
+
+From the code example, we could make a conclusion that builder let us choose what components will be create & won't. With parameters isn't enter, we don't have to worry about it. This is the strongest advantage of Builder pattern.
+
+
+[**3.2. Using Builder To Create An Immutable Object**](#)
+
+What is an **Immutable Object** ? In object-oriented and functional programming, an immutable object is an object whose state cannot be modified after it is created & only provides getter() methods to retrieve its properties value.
+
+There are some important point about objects using Builder:
+- Its constructor is private which means others are unable to create it directly.
+- All properties of it are `private final` so you just only get them, not set them value.
+- Using Builder is the only way to create it.
+
+Example:
+
+    public class Facebook{
+        
+        # all properties is "private final"
+        private final String name; // mandatory
+        private final String email; // mandatory
+        private final boolean twoLayeredVerification;
+        private final String birthday;
+
+
+        # private constructor
+        private Facebook(String name, String email, boolean 2LayeredVerification, birthday){
+            # code....
+        }
+
+
+        # the "FacebookBuilder" is Facebook's gateway to instantiate itself.
+        public static class FacebookBuilder{
+
+
+            # It has the same properties as Facebook class
+            private String name;
+            private String email;
+            private boolean twoLayeredVerification;
+            private String birthday;
+
+
+
+            # public constructor FacebookBuilder
+            public FacebookBuilder(String name, String email){
+                this.name = name;
+                this.email;
+            }
+
+
+            # method "enable Two-layered verification"
+            public FacebookBuilder enableTwoLayeredVerification(boolean twoLayeredVerification){
+                this.twoLayeredVerification = twoLayeredVerification;
+                return this;
+            }
+
+
+            # method "set birthday"
+            public FacebookBuilder setBirthday(String birthday){
+                this.birthday = birthday;
+                return this;
+            }
+
+
+            # method "build" to initialize Facebook object
+            public Facebook build(){
+                
+                # Step 1 - verify mandatory fields
+                if( name.length() < 1 || email.length() < 1 )
+                    throws new IllegalArgumentException("Email can't be null when client want to receive the new letter");
+
+                Facebook myFacebook = new Facebook(
+                    this.name, this.email,
+                    this.twoLayeredVerification,
+                    this.birthday
+                );
+
+                # Step 2 - return the result
+                return myFacebook;
+            }
+
+
+            # toString method to print on the console
+            @Override
+            public String toString() {
+                #code...
+            }
+    }
+
+Use of Facebook class:
+
+    public class PhongKaster{
+
+        public static void main(String[] args){
+            
+            # declare a Order instance
+            Facebook newFacebook = new Facebook
+                                        .FacebookBuilder("Phong Kaster", "phongkaster@gmail.com")
+                                        .enableTwoLayeredVerification(false)
+                                        .setBirthday("01-05-2000")
+                                        .build();
+
+            # print the result
+            System.out.println(newFacebook);
+        }
+    }
+
+Output:
+
+    My Facebook:
+    1. Name: Phong Kaster
+    2. Email: phongkaster@gmail.com
+    3. Enable Two Layered Verification: false
+    4. Birthday: 01-05-2000
+
+[**4. Disadvantage**](#)
+
+The biggest disadvantage of `Builder` is duplicating code because the need of copying Object's properties(Facebook) to Object Builder(Facebook Builder).
 
 ### [**Creational - Prototype**](#creational---prototype)
 
 - Fluency of use: ⭐ ⭐ ⭐
+
+
 
 ## [**Structural**](#structural)
 
