@@ -127,6 +127,8 @@ The above code is more than enough for object instantiation, but in some cases `
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ ⭐ 
 
+[**1. Definition**](#)
+
 Factory Method is a creational design pattern that Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.
 
 Factory Method is a factory explicitly. This "factory" manufactures objects which we need only.
@@ -141,7 +143,9 @@ In Factory Method, it consist of 3 basic components:
 
 >Note: Factory class could be `Singleton` or any class providing a `public static` method for querying or creating an objects. It is said that factory uses `if-else` or `switch-case` so as to decide output subclass.
 
-Example: We own a Mobile Money application for mobile device(Momo, Zalo and so forth). There are many financial organizations as ARGIBANK, BIDV, VIETCOMBANK,.... They are able to supply us a restfulAPI to use their services. The point in this scenario is how we don't need to change our core source code to use their restfulAPI if we want to cope with other businesses..... The answer for the problem is taking advantage of `Factory Method`
+[**2. Example**](#)
+
+We own a Mobile Money application for mobile device(Momo, Zalo and so forth). There are many financial organizations as ARGIBANK, BIDV, VIETCOMBANK,.... They are able to supply us a restfulAPI to use their services. The point in this scenario is how we don't need to change our core source code to use their restfulAPI if we want to cope with other businesses..... The answer for the problem is taking advantage of `Factory Method`
 
 
 <p align="center">
@@ -269,6 +273,8 @@ The output is absolutely as
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ 
 
+[**1. Definition**](#)
+
 Abstract Factory is a creational design pattern that provide an interface for creating families of  related or dependent objects without specifying their concrete classes.
 
 >From my point of view, an Abstract (Factory) Method is a Factory method whose ability is to create a Factory Method.
@@ -289,7 +295,7 @@ A standard Abstract (Factory) Method embraces 5 components:
 
 - **Client** - The objects uses **Abstract Factory** & **Abstract Product**.
 
-Example: 
+[**2. Example**](#)
 
 You are the chairman of GeoComply group - a furniture manufacturer. Your business supplies Table & Chair which is made from Wood or Plastic. However, manufacturing Wood furnitures & Plastic furnitures is 100% different . Therefore, you need 2 different factories to create them. Your customers can make orders which include both wood & plastic furnitures. Both of 2 factories will make process to fulfill your customers's order.   
 
@@ -464,6 +470,8 @@ Output
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ 
 
+[**1. Definition**](#)
+
 Scenario: Sometimes, in a system analysis, we desire having objects that exist only & could be given access from every where. How can we do this ? Maybe you have idea using a `public static final` variable. However, the use of it absolutely break one of 4 principles of OOP - Encapsulation. To prevent this happening, it's high time we used `Singleton`.
 
 Singleton is a creational design pattern that lets you ensure that a class has only one instance and provide a global access point to this instance.
@@ -476,9 +484,10 @@ There are many possible ways to use Singleton yet they have something in common:
 
 - There is a `public static` method to return its instance from any other classes.
 
+[**2. Implementation**](#)
 Use of Singleton:
 
-[**1. Singleton - Eager Initialization**](#)
+[**2.1. Singleton - Eager Initialization**](#)
 
 Singleton is created immediately when called. This is the simplest way yet it has a disadvantage that the instance isn't maybe used.
 
@@ -503,7 +512,7 @@ Singleton is created immediately when called. This is the simplest way yet it ha
 
 Eager initialization is a good approach, easy to implement, however, it is easily broken by Reflection.
 
-[**2. Singleton - Static Block Initialization**](#)
+[**2.2. Singleton - Static Block Initialization**](#)
 
 It is similar to `Eager Initialization` whereas Static Block Initialization created in a static block provides an option for exception handling.
  
@@ -537,7 +546,7 @@ It is similar to `Eager Initialization` whereas Static Block Initialization crea
         }
     }
 
-[**3. Singleton - Lazy Initialization**](#)
+[**2.3. Singleton - Lazy Initialization**](#)
 
 Lazy Initialization expands from 2 implementations above & operates well with single-thread.
 
@@ -564,7 +573,7 @@ Lazy Initialization expands from 2 implementations above & operates well with si
 The implementation of **Lazy Initialization** has overcome the disadvantage of Eager initialization, only when getInstance() is called will the instance be initialized. However, this method only works well in the case of single-thread. In case, there are many threads (multi-thread) running and calling getInstance() at the same time, there can be many more than 1 instance of the instance. To overcome this drawback we use Thread Safe Singleton.
 
 
-[**4. Singleton - Thread Safe Singleton**](#)
+[**2.4. Singleton - Thread Safe Singleton**](#)
 
 The easiest way is `calling synchronized method with getInstance()` & then system would guarantee that only one thread can give access to getInstance() at the same time.
 
@@ -593,7 +602,7 @@ The easiest way is `calling synchronized method with getInstance()` & then syste
 
 The disadvantage of Thread Safe Singleton is sluggish & requiring many resources. Any thread calls this instance then they have to wait for running thread finishes. Hence, we can improve it by `Double Check Locking Singleton`.
 
-[**5. Singleton - Double Check Locking Singleton**](#)
+[**2.5. Singleton - Double Check Locking Singleton**](#)
 
         public class DoubleCheckLockingSingleton {
  
@@ -623,11 +632,11 @@ The disadvantage of Thread Safe Singleton is sluggish & requiring many resources
 
 >Note: the key "volatile" in JAVA notifies instance's changes to other threads if the instance is being using by many threads.
 
-[**6. Singleton - Bill Pugh Singleton Implementation**](#)
+[**2.6. Singleton - Bill Pugh Singleton Implementation**](#)
 
-[**7. Singleton - Using Reflection to destroy Singleton Pattern**](#)
+[**2.7. Singleton - Using Reflection to destroy Singleton Pattern**](#)
 
-[**8. Singleton - Enum**](#)
+[**2.8. Singleton - Enum**](#)
 
 When using enum, the params are only initialized once, this is also a way to help you create a Singleton instance.
 
@@ -675,8 +684,6 @@ A Builder pattern includes these basic components below:
 1. To create complex object having many properties(greater than 4). Some properties are mandatory & some others are optional.
 2. Too many constructors
 3. To diversify ways to create an object.s
-
-
 
 [**3. Example**](#)
 
@@ -955,7 +962,84 @@ The biggest disadvantage of `Builder` is duplicating code because the need of co
 
 - Fluency of use: ⭐ ⭐ ⭐
 
+[**1. Definition**](#)
 
+Prototype is a creational design pattern that specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.
+
+Prototype lets you produce new objects by copying existing ones without compromising their internals. The new object is an exact copy of the prototype but permits modification without altering the original.
+
+<p align="center">
+    <img src="./photo/prototype-sample.jpeg" width="640" />
+</p>
+<h3 align="center">
+
+***PROTOTYPE IS A DUPLICATION OF SOMETHING !***
+</h3>
+
+Prototype pattern is used when to create a new object requires many efforts.
+
+In JAVA, to duplicate an object, we have to implements `interface Cloneable` & use `clone()` method to do it.
+
+[**2. Example**](#)
+
+In GeoComply, every single staff will be given a Macbook Pro 16 2019. There is no different among staff's laptop. All of them has the same installed programs( MacOS, Slack, Skype,....). If someone need special programmes for their own business, they'll be installed later. Installation takes long times, however, IT support department comes up with an ideal that a standard Laptop version will be create and they install this version to every laptop in the company. It is called `clone()`
+
+First, we defines `Computer` class implementing interface `Cloneable`:
+
+    public class Computer implements Cloneable{
+
+        private String operatingSystem;
+        private String office;
+        private String others;
+
+
+
+        # constructor
+        public Computer(String operatingSystem, String office, String others){
+            this.operatingSystem = operatingSystem;
+            this.office = office;
+            this.others = others;
+        }
+
+
+
+        # clone() method from interface Cloneable
+        @Override
+        protected Computer clone() {
+            try 
+            {
+                return (Computer) super.clone();
+            } 
+            catch (CloneNotSupportedException e) 
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        # getter() & setter()
+        ....
+    }
+
+Second,  use of Computer:
+
+
+    public static void main(String[] args) {
+
+        Computer computer1 = new Computer("MacOS", "Word 2022", "Slack");
+        Computer computer2 = computer1.clone();
+        computer2.setOthers("Android Studio, Firefox");
+ 
+        System.out.println("Computer 1 has " + computer1);
+        System.out.println("Computer 2 has " + computer2);
+    }
+
+Output
+
+        Computer 1 has MacOS, Word 2022, Slack;
+
+        Computer 2 has MacOS, Word 2022, Android Studio, Firefox;
 
 ## [**Structural**](#structural)
 
