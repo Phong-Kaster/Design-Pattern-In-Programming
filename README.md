@@ -22,8 +22,10 @@
     - [**Creational - Prototype**](#creational---prototype)
   - [**Structural**](#structural)
     - [**Structural - Adapter**](#structural---adapter)
-    - [**Structural - Bridge**](#structural---bridge)
     - [**Structural - Composite**](#structural---composite)
+- [**3. Advantage**](#3-advantage)
+- [**4. When to use ?**](#4-when-to-use-)
+    - [**Structural - Bridge**](#structural---bridge)
     - [**Structural - Decorator**](#structural---decorator)
     - [**Structural - Facade**](#structural---facade)
     - [**Structural - Flyweight**](#structural---flyweight)
@@ -44,7 +46,8 @@
   - [**What is an abstract class ?**](#what-is-an-abstract-class-)
   - [**What is a concrete class ?**](#what-is-a-concrete-class-)
 - [**My Mentors**](#my-mentors)
-- [**Made with 💘**](#made-with-)
+- [**Credit**](#credit)
+- [**Made with 💘 and English  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/English_language.svg/2560px-English_language.svg.png" width="60">**](#made-with--and-english--)
 
 # [**What is Design Pattern ?**](#what-is-design-pattern)
 Software development is an iterative process and there are many problems which developers has to face up to many times. Programmers could come up with an idea for addressing the problem yet it isn't the most effective. Design pattern supplies best optimized "samples" (or maybe "patterns") in getting programming with OOP.
@@ -188,7 +191,7 @@ Second, create 2 subclass which implements `Bank` interface
             # any method/ functions are able to declare below.
         }
 
-- Vietcombak Class
+- Vietcombank Class
 
         package com.gpcoder.patterns.creational.factorymethod;
  
@@ -485,7 +488,7 @@ There are many possible ways to use Singleton yet they have something in common:
 - There is a `public static` method to return its instance from any other classes.
 
 [**2. Implementation**](#)
-Use of Singleton:
+
 
 [**2.1. Singleton - Eager Initialization**](#)
 
@@ -966,6 +969,8 @@ The biggest disadvantage of `Builder` is duplicating code because the need of co
 
 Prototype is a creational design pattern that specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.
 
+Scenario: Assume you have a `Hash Map` has 100 elements. Each element has a pair `key` & `value`. Now, for exhaustive testing, you are mandatory to replace fifthly element & ninetieth element by 2 other pair key & value. If we create a new hashmap and loop through the first hash map, it's effective. Why don't we duplicate the Hash Map and just replace 2 positions as we want ?
+
 Prototype lets you produce new objects by copying existing ones without compromising their internals. The new object is an exact copy of the prototype but permits modification without altering the original.
 
 <p align="center">
@@ -1077,13 +1082,303 @@ The main goal is to `increase or extend the functionalities` of the class `witho
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐
 
-### [**Structural - Bridge**](#structural---bridge)
+[**1. Definition**](#)
 
-- Fluency of use: ⭐ ⭐ ⭐
+Adapter Pattern is a structural design pattern that convert the interface of a class into another interface clients expect. Adapter lets classes work together that couldn’t otherwise because of incompatible interfaces.
+
+Adapter Pattern (Converter) is knows as `Wrapper Pattern` . The Adapter Pattern allows unrelated interfaces to work together. The object that helps to connect the interfaces is called Adapter.
+
+<p align="center">
+    <img src="./photo/adapter-sample.jpeg" />
+</p>
+<h3 align="center">
+
+***It is like the problem of inserting a new three-prong electrical plug in an old two-prong wall outlet***
+</h3>
+
+
+An adapter patter has 5 components:
+
+- **Adapter** - helps incompatible interface to attach to working interface & connect to Client.
+
+- **Incompatible Interface** - defines incompatible interfaces
+
+- **Action** - contains methods which clients use. For example: play, pause, skip...
+
+- **Client** - object uses Adapter to be redirected to `Incompatible Interface`
+
+
+
+[**2. Example**](#)
+
+We have interface `MediaPlayer`(Action) to play MP3 files by default. Beside MediaPlay, we also have interface `AdvancedMediaPlayer`(Incompatible Interface) used to play MP4 & FLAC files.
+
+We have concrete `AudioPlayer`(Client) inherits `MediaPlayer` to play MP3-formatted files as well as other formats.
+
+In addition, `AdvancedAudioPlay` extending `AdvancedMediaPlay` is designed specially to run MP4-formatted & FLAC-formatted files.
+
+We want to make AudioPlayer to play other formats as well. To attain this, we have created an adapter class MediaAdapter which implements the MediaPlayer interface and uses AdvancedMediaPlayer objects to play the required format.
+
+
+Step 1: declare `Action` - our features that client could use:
+
+- MediaPlay:
+
+    public interface MediaPlayer{
+
+        # this function plays audio basing on @params type & @params type
+        # @params audioType is one of three format sound supported - MP3, FLAC & MP4
+        # @params fileName is the name of file
+        void play( String audioType, String fileName );
+    }
+
+- AdvancedMediaPlay:
+
+    public interface AdvancedMediaPlayer{
+        
+        # do the same as MediaPlay's play method but they are designed to play MP4 & FLAC format.
+        void playMP4( String fileName );
+        void playFLAC( String fileName );
+    }
+
+Step 2: Create two concrete classes implementing the `AdvancedMediaPlayer` interface.
+
+- MP4 Player:
+  
+    public class mp4Player implements AdvancedMediaPlayer{
+        
+
+        @Override
+        public void playMP4(String fileName){
+            System.out.println("Playing MP4 file - name: "+ fileName);	
+        }
+
+        @Override
+        public void playFLAC(String fileName){
+            # do nothing
+        }
+
+    }
+
+- FLAC Player:
+
+    public class flacPlayer implements AdvancedMediaPlayer{
+
+        @Override
+        public void playMP4(String fileName){
+            # do nothing
+        }
+
+        @Override
+        public void playFLAC(String fileName){
+            System.out.println("Playing MP4 file - name: "+ fileName);
+        }
+    }
+
+Step 3: right now, we design a `MediaAdapter` to handle sound format passed.
+
+    public class MediaAdapter implements MediaPlayer{
+
+        AdvancedMediaPlayer advancedPlayer;
+
+        public MediaAdapter(String audioType){
+            if( audioType.equal("mp4") )
+            {
+                advancedPlayer = new mp4Player();
+            }
+            if( audioType.equal("flac") )
+            {
+                advancedPlayer = new flacPlayer();
+            }
+        }
+
+        @Override
+        public void play(String audioType, String fileName){
+
+            if( audioType.equal("mp4") )
+            {
+                advancedPlayer.play(fileName);
+            }
+
+            if( audioType.equal("flac") )
+            {
+                advancedPlayer.play(fileName);
+            }
+        }
+    }
+
+Step 4: we are able to use `AudioPlayer` to play whatever we want:
+
+    public class AudioPlayer implements MediaPlayer{
+
+        MediaAdapter adapter;
+
+
+        @Override
+        public class play(String audioType, String fileName){
+
+            if( audioType.equals("mp3") ){
+                System.out.println("Playing MP3 file - name: "+ fileName);
+            }
+            else if( audioType.equals("mp4") ){
+                adapter = MediaAdapter("mp4");
+                adapter.play(fileName);
+            }
+            else if( audioType.equals("flac") ){
+                adapter = MediaAdapter("flac");
+                adapter.play(fileName);
+            }
+            else{
+                System.out.println(audioType + "is not supported !");
+            }
+        }
+    }
+
+Step 5: Run
+
+    public static void main(String[] args) {
+      AudioPlayer audioPlayer = new AudioPlayer();
+
+      audioPlayer.play("mp3", "my-heart-will-go-on.mp3");
+      audioPlayer.play("mp4", "alone.mp4");
+      audioPlayer.play("flac", "jars-of-heart.flac");
+      audioPlayer.play("avi", "remember-me.avi");
+   }
+
+Output
+
+    Playing MP3 file - name: my-heart-will-go-on.mp3
+    Playing MP4 file - name: alone.mp4
+    Playing FLAC file - name: jars-of-heart.flac
+    AVI is not supported !
 
 ### [**Structural - Composite**](#structural---composite)
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐
+
+Compose objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions of objects uniformly.
+
+
+Scenario: Using the Composite pattern makes sense only when the core model of your app can be represented as a tree.
+
+A file system is a tree structure that contains branches, which are directories (folder-composite), as well as leaf nodes, which are files (file-leaf). A folder can contain one or more files or folders. Therefore, folder is a complex object and file is a simple object. Files and folders have many operations and properties in common, such as: move (cut), copy (copy), list (view) or folder properties such as filename and size.
+
+With such a structure, it is easier and more convenient to manage files and folders uniformly by building an Interface that has all the methods and properties common to both files and folders.
+
+<p align="center">
+    <img src="./photo/composite-sample.png" />
+</p>
+<h3 align="center">
+
+***A directory could contains files or sub-directories.Sub-directories also contains file & smaller directories.***
+</h3>
+
+
+A `Composite` pattern has 4 basic components:
+
+- **Base Component** - is an interface or abstract class specifies common methods required for all composites & leafs participating in the pattern.
+
+- **Leaf** - is class implements the component's methods. It is object without children.
+
+- **Composite** - stores set of leafs & installs the Base component's methods. Composite implements methods defined in the Component interface by delegating handling to child components
+
+- **Client** - uses Base Component to work with Composite's objects.
+
+
+Step 1: define `Base Component` specifies methods which both files and folders have
+
+
+        public interface FileComponent{
+            void cut();
+            void getSize();
+        }
+
+Step 2: create `File` class implements FileComponent's method:
+
+        public class File implements FileComponent{
+
+            private int size;
+
+
+            # constructor
+            public File(int size){
+                this.size = size;
+            }
+
+
+            @Override
+            public void cut(){
+                System.out.println("This file is cut !");
+            }
+
+
+            @Override
+            public void getSize(){
+                System.out.println("This size of file " + this.size);
+            }
+        }
+
+Step 3: create `Folder` class contains files and folders:
+
+        public class Folder implements FileComponent{
+
+
+            private ArrayList<File> files = new ArrayList<>();
+
+
+            # constructor
+            public Folder(ArrayList<File> files){
+                this.files = files;
+            }
+
+
+            @Override
+            public void cut(){
+                System.out.println("This folder is cut !");
+            }
+
+
+            @Override
+            public void getSize(){
+                System.out.println("This folder's size is " + files.size() + " !");
+            }
+        }
+
+Step 4: use in `Client` class
+
+    public static void main(String[] args) {
+
+
+        FileComponent file1 = new File(10);
+        FileComponent file2 = new File(5);
+        FileComponent file3 = new File("file 3", 12);
+ 
+
+        ArrayList<File> files = Arrays.asList(file1, file2, file3);
+        FileComponent folder = new Folder(files);
+
+        folder.getSize();
+        file1.getSize();
+    }
+
+Output
+
+    This folder's size is 3 !
+    This file's size is 10 !
+
+# [**3. Advantage**](#)
+
+Provide the same usage for individual objects or groups of objects together.
+
+# [**4. When to use ?**](#)
+
+The Composite Pattern should only be applied when the group of objects must behave as a single object (in the same way).
+
+The Composite Pattern can be used to create a tree-like structure.
+
+### [**Structural - Bridge**](#structural---bridge)
+
+- Fluency of use: ⭐ ⭐ ⭐
 
 ### [**Structural - Decorator**](#structural---decorator)
 
@@ -1220,4 +1515,9 @@ A concrete class is a class which has implementation for all of its methods. It 
         </tr>
 </table>
  
-# [**Made with 💘**](#made-with-love-and-php)
+
+# [**Credit**](#credit)
+
+All examples about each design pattern, I referenced from [**here**](https://gpcoder.com/4164-gioi-thieu-design-patterns/#Nhom_Creational_nhom_khoi_tao)
+
+# [**Made with 💘 and English  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/English_language.svg/2560px-English_language.svg.png" width="60">**](#made-with--and-english)
