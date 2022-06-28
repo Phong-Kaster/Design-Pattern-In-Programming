@@ -23,8 +23,6 @@
   - [**Structural**](#structural)
     - [**Structural - Adapter**](#structural---adapter)
     - [**Structural - Composite**](#structural---composite)
-- [**3. Advantage**](#3-advantage)
-- [**4. When to use ?**](#4-when-to-use-)
     - [**Structural - Bridge**](#structural---bridge)
     - [**Structural - Decorator**](#structural---decorator)
     - [**Structural - Facade**](#structural---facade)
@@ -1366,11 +1364,11 @@ Output
     This folder's size is 3 !
     This file's size is 10 !
 
-# [**3. Advantage**](#)
+[**3. Advantage**](#)
 
 Provide the same usage for individual objects or groups of objects together.
 
-# [**4. When to use ?**](#)
+[**4. When to use ?**](#)
 
 The Composite Pattern should only be applied when the group of objects must behave as a single object (in the same way).
 
