@@ -1418,7 +1418,7 @@ From these pictures above, we can make conclusion about Facade's components as:
 
 [**2. Example**](#)
 
-You have an application which is used to play media. Media means there are many types of file extension as MP4, FLAC, MP3, WAV,... and so forth. To build an multi-purpose application, you must build many classes. Each of them handles specific file extension. The more file extension you want to support, the more classes you have to build up. However, the main problem is how we can wrap all specialized classes in one application only. To address this problem, you need to have a `Converter`(Facade) to recognize what file extension users want to play.
+You have an application which is used to play media. Media means there are many types of file extension(Sub-systems) as MP4, FLAC, MP3, WAV,... and so forth. To build an multi-purpose application as MediaPlayer(Client), you must build many classes. Each of them handles specific file extension. The more file extension you want to support, the more classes you have to build up. However, the main problem is how we can wrap all specialized classes in one application only. To address this problem, you need to have a `Converter`(Facade) to recognize what file extension users want to play.
 
 <p align="center">
     <img src="./photo/facade-example.png"/>
