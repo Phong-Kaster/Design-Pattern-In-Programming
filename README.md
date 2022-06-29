@@ -1432,15 +1432,6 @@ Now, Los geht's 🔥 to solve the example
 
 Step 1: we specifies classes used to handle special extension. MP4, MPE4, FLAC,... is file extension, for instance.
 
-- MediaPlayerUX
-  
-    public class MediaPlayerUX{
-
-        public void popupUX(String fileName){
-            System.out.println("A Media Player UX is running. The current file is " + fileName);
-        }
-    }
-
 - MP4 Class:
 
         public class MP4Codex{
@@ -1473,15 +1464,15 @@ There are some classes we need to integrate into our application. If your requir
 
 Step 2: at the moment, we have the classes for specific media files. To make all classes work together, A `Converter` need to be built up:
 
-    public class MediaConverter{
+    public class VideoConverter{
 
 
         # implement Singleton pattern to define instance
-        private static final MediaConverter instance;
+        private static final VideoConverter instance;
 
 
         # supported file extension
-        private MediaPlayerUX mediaPlayerUX;
+        private VideoPlayerUX videoPlayerUX;
         private MP4Codex mp4Codex;
         private MPE4Codex mpe4codex;
         private FLACCodex flacCodex;
@@ -1489,8 +1480,8 @@ Step 2: at the moment, we have the classes for specific media files. To make all
 
 
         # private constructor
-        private MediaConverter(){
-            mediaPlayerUX = new MediaPlayerUX();
+        private VideoConverter(){
+            videoPlayerUX = new VideoPlayerUX();
             mp4Codex = new MP4Codex();
             mpe4Codex = new MPE4Codex();
             flacCodex = new FLACCodex();
@@ -1502,28 +1493,21 @@ Step 2: at the moment, we have the classes for specific media files. To make all
             return this.instance;
         }
 
+        # this function runs video
+        public void convertVideo(String fileName, String format){
 
-        # mp4Codex play() method is from the "MP4Codex" class in Step 1
-        public void playMP4file(String fileName){
-
-            this.mediaPlayerUX.popupUX(fileName);
-            this.mp4Codex.play(fileName);
-        }
-
-
-        # mpe4Codex play() method is from the "MP4Codex" class in Step 1
-        public void playMPE4file(String fileName){
-
-            this.mediaPlayerUX.popupUX(fileName);
-            this.mpe4Codex.play(fileName);
-        }
-
-
-        # mp4Codex play() method is from the "MP4Codex" class in Step 1
-        public void playFLACfile(String fileName){
-
-            this.mediaPlayerUX.popupUX(fileName);
-            this.flacCodex.play(fileName);
+            switch(format):
+                case "MP4":
+                    mp4Codex.play( fileName );
+                    break;
+                case "MPE4":
+                    mpe4Codex.play( fileName );
+                    break;
+                case "FLAC":
+                    flacCodex.play( fileName )
+                    break;
+                default:
+                    System.out.println(format + " is not supported !");
         }
     }
 
@@ -1533,17 +1517,20 @@ Step 3: using MediaConverter in Client:
     public static void main(String[] args) {
         
         # define media player
-        MediaConverter mediaPlayer = MediaConverter.getInstance();
+        VideoConverter videoPlayer = VideoConverter.getInstance();
 
 
         # run your favorite files
-        mediaPlayer.playMP4file("My-heart-will-go-on.mp4");
+        videoPlayer.convertVideo("MP4", "My heart will go on");
+
+        videoPlayer.convertVideo("AVI", "The cup of life");
     }
 
 Output
 
-    A Media Player UX is running. The current file is my-heart-will-go-on.mp4
     Your file extension is MP4. Its name is my-heart-will-go-on.mp4
+
+    AVI is not supported !
 
 As you can see, a complex application become easy-to-use for clients. Clients just use `MediaConverter` to play any media they want &  they are unable to know how the system operates inside.
 
