@@ -1443,24 +1443,30 @@ Step 1: we specifies classes used to handle special extension. MP4, MPE4, FLAC,.
 
 - MP4 Class:
 
-    public class MP4Codex{
+        public class MP4Codex{
 
-        # do what ever you want
-    }
+            public void play(String fileName){
+                #code...
+            }
+        }
 
 - MPE4 Class:
 
-    public class MPE4Codex{
+        public class MPE4Codex{
 
-         # do what ever you want
-    }
+            public void play(String fileName){
+                #code...
+            }
+        }
 
 - WAV Class:
 
-    public class FLACCodex{
+        public class FLACCodex{
 
-        # do what ever you want
-    }
+            public void play(String fileName){
+                #code...
+            }
+        }
 
 
 There are some classes we need to integrate into our application. If your requirement needs more, just define classes you want.
