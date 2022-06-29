@@ -1378,6 +1378,175 @@ The Composite Pattern can be used to create a tree-like structure.
 
 - Fluency of use: ⭐ ⭐ ⭐
 
+[**1. Definition**](#)
+
+Bridge is a structural design pattern that lets you split a large class or a set of closely related classes into two separate hierarchies—abstraction and implementation—which can be developed independently of each other.
+
+Its idea is separating ist abstraction from its implementation. From there, it can be edited its abstraction & its implementation easily & doesn't effect to other components.
+
+Scenario: We have abstraction `Shape` includes `Circle` and `Square` are sub-classes. Now, we want to decorate `Circle` & `Square` with 2 colors is `Red` & `Blue`. However, you have already 2 sub-classes so that you continually create 4 combination as `RedCircle`, `RedSquare`, `BlueCircle` & `RedSquare`. Now, if you want to one more Shape, `Rectangle` class, for instance. Obviously, `RedRectangle` & `BlueRectangle` are required. The more options, the more classes. Therefore, it's not a effective structure.
+
+<p align="center">
+    <img src="./photo/bridge-example-1.png" />
+</p>
+<h3 align="center">
+
+***The more options, the more classes***
+</h3>
+
+Adding new shape types and colors to the hierarchy will grow it exponentially. For example, to add a triangle shape you’d need to introduce two subclasses, one for each color. And after that, adding a new color would require creating three subclasses, one for each shape type. The further we go, the worse it becomes.
+
+
+Before going to example, we need to know about bridge pattern's components: 
+
+- **Client** - represents the client using function through Abstraction.
+
+- **Abstraction** - defines an abstract interface that manages the reference to the concrete implementation object ( Implementor ).
+
+- **Refined Abstraction** - implements methods defined in Abstraction using a reference to an object of Implementer .
+
+- **Implementor** - defines the interfaces for the implementing classes. Usually it is the interface that defines certain tasks of the Abstraction.
+  
+- **ConcreteImplementor** - implements the Implementor interface.
+
+[**2. Example**](#)
+
+Now, it's hight time for solution. This problem occurs because we’re trying to extend the shape classes in two independent dimensions: by form and by color. That’s a very common issue with class inheritance.
+
+The Bridge pattern attempts to solve this problem by switching from inheritance to the object composition. What this means is that you extract one of the dimensions into a separate class hierarchy, so that the original classes will `reference an object of the new hierarchy`, instead of having all of its state and behaviors within one class.
+
+<p align="center">
+    <img src="./photo/bridge-example-2.png" />
+</p>
+<h3 align="center">
+
+***You can prevent the explosion of a class hierarchy by transforming it into several related hierarchies.***
+</h3>
+
+Step 1: defining `Color` interface. The interface plays role as `Implementor`
+
+        public interface Color{
+
+            void pickColor();
+        }
+
+Step 2: defining `ConcreteImplementor`. They are `Red` and `Blue` colours.
+
+- Red
+
+        public class Red implements Color{
+            
+            @Override
+            public void pickColor(){
+                System.out.println("Red color");
+            }
+        }
+
+- Blue
+
+        public class Blue implements Color{
+
+            @Override
+            public void pickColor(){
+                 System.out.println("Blue color");   
+            }
+        }
+
+Step 3: create `Abstraction` class which holds a reference to `Color`
+
+        public class Shape{
+
+            #sub-class are able to modify Color variable when they inherits Shape class only
+            protected Color color;
+
+
+            # constructor
+            public Shape(Color color){
+                this.color = color;
+            }
+
+
+            # an abstract method
+            public abstract void showProperty();
+        }
+
+Step 4: create Square & Circle that inherits `Shape` class. They are obviously `Refined Abstraction`
+
+
+- Circle
+
+        public class Circle implements Shape{
+            
+
+            #constructor
+            public Circle(Color color){
+                super(shape);
+            }
+
+
+            @Override
+            public void showProperty(){
+                System.out.println("A circle whose color is " + this.color.pickColor()); 
+            }
+        }
+
+- Square
+
+        public class Square implements Shape{
+
+
+            # constructor
+            public Square(Color color){
+                super(shape)
+            }
+
+
+            @Override
+            public void showProperty(){
+                System.out.println("A square whose color is " + this.color.pickColor()); 
+            }
+        }
+
+Step 5: `Client` uses `Shape` to create geometric objects
+
+        public static void main(String[] args) {
+        
+        Color red = new Red();
+        Color blue = new Blue();
+
+
+        Shape circle = new Circle(red);
+        Shape square = new Square(blue);
+
+
+        circle.showProperty();
+        square.showProperty();
+    }
+
+Output
+
+    A circle whose color is red color
+    A square whose color is blue color
+
+[**3. When to use Bridge Pattern ?**](#)
+
+When you want to separate the binding between Abstraction and Implementation, so that it can be easily extended independently of each other.
+
+Both their Abstraction and Implementation should be extended with sub-classes.
+
+Use where changes made in the implementation do not affect the client side.
+
+[**4. What are the benefits of Bridge Pattern ?**](#)
+
+Reduce dependency between abstraction and implementation
+
+The code will be cleaner and the application size will be smaller : by reducing the number of unnecessary classes.
+
+Easier to maintain : its Abstractions and Implementations will be easy to change at runtime as well as when it needs to be changed in the future.
+
+Easy to extend later 
+
+Allows hiding implementation details from the client: since abstraction and implementation are completely independent, we can change a component without affecting the client side. For example, the classes of the image viewer will be independent of the drawing algorithm in the implementation. Thus, we can update the image viewer program when there is a new image drawing algorithm without much modification.
 ### [**Structural - Decorator**](#structural---decorator)
 
 - Fluency of use: ⭐ ⭐ ⭐
