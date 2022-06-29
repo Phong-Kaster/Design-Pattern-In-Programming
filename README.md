@@ -1386,6 +1386,179 @@ The Composite Pattern can be used to create a tree-like structure.
 
 - Fluency of use: ⭐ ⭐ ⭐ ⭐ ⭐ 
 
+[**1. Definition**](#)
+
+Facade pattern provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
+
+The Facade Pattern allows objects to directly access this common interface to communicate with the interfaces present in the subsystem. The goal is to hide complex operations inside the subsystem, making the subsystem easier to use.
+
+<p align="center">
+    <img src="./photo/facade-without.png"S/>
+</p>
+<h3 align="center">
+
+***WITHOUT FACADE, COMMUNICATION BETWEEN CLIENT AND SUBSYSTEM IS COMPLICATED😩***
+</h3>
+
+<p align="center">
+    <img src="./photo/facade-with.png"/>
+</p>
+<h3 align="center">
+
+***WITH FACADE, CLIENT COMMUNICATES WITH SUBSYSTEM BY THE COMMON PORTAL - FACADE😎***
+</h3>
+
+From these pictures above, we can make conclusion about Facade's components as:
+
+- **Facade** - knows which sub-system's classes are in charge of client's request. It also pass client's request to corresponding sub-system.
+
+- **Sub-system** - implements sub-system's methods, handle work called by Facade. It doesn't know about Facade's existence & doesn't refer to it.
+
+- **Client** - is object uses Facade to communicate to Sub-systems.
+
+[**2. Example**](#)
+
+You have an application which is used to play media. Media means there are many types of file extension as MP4, FLAC, MP3, WAV,... and so forth. To build an multi-purpose application, you must build many classes. Each of them handles specific file extension. The more file extension you want to support, the more classes you have to build up. However, the main problem is how we can wrap all specialized classes in one application only. To address this problem, you need to have a `Converter`(Facade) to recognize what file extension users want to play.
+
+<p align="center">
+    <img src="./photo/facade-example.png"/>
+</p>
+<h3 align="center">
+
+***CONVERTER IS OUR SOLUTION IN A MULTI-PURPOSE APPLICATION🤓***
+</h3>
+
+Now, Los geht's 🔥 to solve the example
+
+Step 1: we specifies classes used to handle special extension. MP4, MPE4, FLAC,... is file extension, for instance.
+
+- MediaPlayerUX
+  
+    public class MediaPlayerUX{
+
+        public void popupUX(String fileName){
+            System.out.println("A Media Player UX is running. The current file is " + fileName);
+        }
+    }
+
+- MP4 Class:
+
+    public class MP4Codex{
+
+        # do what ever you want
+    }
+
+- MPE4 Class:
+
+    public class MPE4Codex{
+
+         # do what ever you want
+    }
+
+- WAV Class:
+
+    public class FLACCodex{
+
+        # do what ever you want
+    }
+
+
+There are some classes we need to integrate into our application. If your requirement needs more, just define classes you want.
+
+Step 2: at the moment, we have the classes for specific media files. To make all classes work together, A `Converter` need to be built up:
+
+    public class MediaConverter{
+
+
+        # implement Singleton pattern to define instance
+        private static final MediaConverter instance;
+
+
+        # supported file extension
+        private MediaPlayerUX mediaPlayerUX;
+        private MP4Codex mp4Codex;
+        private MPE4Codex mpe4codex;
+        private FLACCodex flacCodex;
+    
+
+
+        # private constructor
+        private MediaConverter(){
+            mediaPlayerUX = new MediaPlayerUX();
+            mp4Codex = new MP4Codex();
+            mpe4Codex = new MPE4Codex();
+            flacCodex = new FLACCodex();
+        }
+
+
+        # public static method - getInstance()
+        public static MediaConverter getInstance(){
+            return this.instance;
+        }
+
+
+        # mp4Codex play() method is from the "MP4Codex" class in Step 1
+        public void playMP4file(String fileName){
+
+            this.mediaPlayerUX.popupUX(fileName);
+            this.mp4Codex.play(fileName);
+        }
+
+
+        # mpe4Codex play() method is from the "MP4Codex" class in Step 1
+        public void playMPE4file(String fileName){
+
+            this.mediaPlayerUX.popupUX(fileName);
+            this.mpe4Codex.play(fileName);
+        }
+
+
+        # mp4Codex play() method is from the "MP4Codex" class in Step 1
+        public void playFLACfile(String fileName){
+
+            this.mediaPlayerUX.popupUX(fileName);
+            this.flacCodex.play(fileName);
+        }
+    }
+
+Step 3: using MediaConverter in Client:
+
+    
+    public static void main(String[] args) {
+        
+        # define media player
+        MediaConverter mediaPlayer = MediaConverter.getInstance();
+
+
+        # run your favorite files
+        mediaPlayer.playMP4file("My-heart-will-go-on.mp4");
+    }
+
+Output
+
+    A Media Player UX is running. The current file is my-heart-will-go-on.mp4
+    Your file extension is MP4. Its name is my-heart-will-go-on.mp4
+
+As you can see, a complex application become easy-to-use for clients. Clients just use `MediaConverter` to play any media they want &  they are unable to know how the system operates inside.
+
+[**3. What are the benefits of Facade Pattern ?**](#)
+
+Make your system simpler to use and understand, as a Facade pattern has convenient methods for common tasks.
+
+Reduces the dependency of external code on the internal implementation of the library, since most of the code uses Facade, thus allowing flexibility in the development of systems.
+
+Encapsulating a set of poorly designed API functions equals a single better designed API function.
+
+[**4. When to use Facade Pattern**](#)
+
+When the system has many layers, it is difficult for the user to understand the process of the program. And when there are many subsystems, each of which has its own interfaces, it is very difficult to use it together. The Facade Pattern can then be used to create a simple interface for the user of a complex system .
+
+When the user depends heavily on the implementation classes. The application of the Facade Pattern separates the user's subsystem from other subsystems, thus increasing the subsystem's independence and portability , making it easier to switch for future upgrades.
+
+When you want to subclass subsystems. Use the Facade Pattern to define a common interface for each subsystem, thus reducing the dependency of subsystems since these systems only communicate with each other through those common interface ports.
+
+When you want to wrap, hide the complexity in subsystems from the client side.
+
 ### [**Structural - Flyweight**](#structural---flyweight)
 
 - Fluency of use: ⭐
