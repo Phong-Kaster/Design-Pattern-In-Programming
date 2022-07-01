@@ -1122,56 +1122,56 @@ Step 1: declare `Action` - our features that client could use:
 
 - MediaPlay:
 
-    public interface MediaPlayer{
+        public interface MediaPlayer{
 
-        # this function plays audio basing on @params type & @params type
-        # @params audioType is one of three format sound supported - MP3, FLAC & MP4
-        # @params fileName is the name of file
-        void play( String audioType, String fileName );
-    }
+            # this function plays audio basing on @params type & @params type
+            # @params audioType is one of three format sound supported - MP3, FLAC & MP4
+            # @params fileName is the name of file
+            void play( String audioType, String fileName );
+        }
 
 - AdvancedMediaPlay:
 
-    public interface AdvancedMediaPlayer{
+        public interface AdvancedMediaPlayer{
         
-        # do the same as MediaPlay's play method but they are designed to play MP4 & FLAC format.
-        void playMP4( String fileName );
-        void playFLAC( String fileName );
-    }
+            # do the same as MediaPlay's play method but they are designed to play MP4 & FLAC format.
+            void playMP4( String fileName );
+            void playFLAC( String fileName );
+        }
 
 Step 2: Create two concrete classes implementing the `AdvancedMediaPlayer` interface.
 
 - MP4 Player:
   
-    public class mp4Player implements AdvancedMediaPlayer{
+        public class mp4Player implements AdvancedMediaPlayer{
         
 
-        @Override
-        public void playMP4(String fileName){
-            System.out.println("Playing MP4 file - name: "+ fileName);	
-        }
+            @Override
+            public void playMP4(String fileName){
+                System.out.println("Playing MP4 file - name: "+ fileName);	
+            }
 
-        @Override
-        public void playFLAC(String fileName){
-            # do nothing
-        }
+            @Override
+            public void playFLAC(String fileName){
+                # do nothing
+            }
 
-    }
+         }
 
 - FLAC Player:
 
-    public class flacPlayer implements AdvancedMediaPlayer{
+        public class flacPlayer implements AdvancedMediaPlayer{
 
-        @Override
-        public void playMP4(String fileName){
-            # do nothing
-        }
+            @Override
+            public void playMP4(String fileName){
+                # do nothing
+            }
 
-        @Override
-        public void playFLAC(String fileName){
-            System.out.println("Playing MP4 file - name: "+ fileName);
+            @Override
+            public void playFLAC(String fileName){
+                System.out.println("Playing MP4 file - name: "+ fileName);
+            }
         }
-    }
 
 Step 3: right now, we design a `MediaAdapter` to handle sound format passed.
 
